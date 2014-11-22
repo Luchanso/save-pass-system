@@ -1,0 +1,22 @@
+{
+  "name": "save-pass-system",
+  "version": "1.0.0",
+  "description": "Система безопасной передачи и хранения пароля ",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "pass",
+    "hash",
+    "security"
+  ],
+  "author": "Loutchansky Oleg",
+  "license": "MIT",
+  "devDependencies": {
+    "express": "^4.10.2",
+    "sha256": "^0.1.1",
+    "socket.io": "^1.2.1"
+  }
+}

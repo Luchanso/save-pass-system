@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>	
+	<p>Проверочный логин и пароль (test test)</p>
+	<input type="text" id="login" placeholder="Login"><br>
+	<input type="text" id="password" placeholder="Password"><br><br>
+	<button type="button" onclick="auth()">Войти</button>	
+
+	<script src="https://cdn.socket.io/socket.io-1.2.1.js"></script>
+	<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>	
+	<script>
+		var hashServer = '';
+		var hash = CryptoJS.SHA256;
+
+		socket = io.connect('http://127.0.0.1:9900');
+		socket.on('connect', function () {
+			socket.on('message', function (msg) {
+				console.log(msg);
+				if (msg.mtype == 'hashServer')
+				{
+					hashServer = msg.data;
+				}
+				else if (msg.mtype == 'auth')
+				{
+					if (msg.data)
+						alert('Авторизация прошла успешна');
+					else
+						alert('Введён неправильный логин или пароль');
+				}
+			});
+		});
+
+		function auth() {			
+			var login = document.getElementById('login').value;
+			var password = document.getElementById('password').value;
+			var hashPass = hash(password);
+
+			password = hash(hashPass + hashServer).toString();			
+
+			socket.send({login: login, password: password});
+		}
+		
+	</script>
+</body>
+</html>
